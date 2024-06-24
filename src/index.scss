@@ -23,12 +23,23 @@ a{
 }
 
 header{
+    background-color: beige;
     nav{
+        padding: 20px 30px;
         menu{
             display:flex;
-            gap:20px;
-            justify-content: center;
+            justify-content: space-between;
+            div:first-child{
+                display: flex;
+                gap:20px;
+            }
             li{
+                button{
+                    background: none;
+                    border: none;
+                    font-size: 16px;
+                    font-family: 'Times New Roman', Times, serif;
+                }
                 a{
                     &.active{
                         text-decoration: underline;
@@ -47,7 +58,7 @@ main{
 footer{
     width: 100%;
     padding: 20px;
-    background-color: rgb(49, 48, 56);
+    background-color: beige;
 }
 
 .card-container{
@@ -119,6 +130,9 @@ form{
         background-color: white;
         padding: 5px 10px;
         border-radius: 10px;
+    }
+    button{
+        margin: 15px 0;
     }
     .check{
         display: flex;
