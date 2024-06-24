@@ -43,7 +43,7 @@ function Form() {
     }
     return (
         <div className="container">
-            <h1>Form</h1>
+            <h1>Nuovo Post</h1>
             <form onSubmit={handleSubmit}>
 
                 <div>
