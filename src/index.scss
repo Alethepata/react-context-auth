@@ -17,6 +17,11 @@ a{
     color: black;
 }
 
+.container{
+    width: 1000px;
+    margin: 0 auto;
+}
+
 header{
     nav{
         menu{
@@ -100,4 +105,23 @@ footer{
         }
     }
 
+}
+
+form{
+    padding: 20px 0;
+    label{
+        display: block;
+        margin-bottom: 5px;
+    }
+    input, button, textarea, select{
+        box-shadow: 5px 5px 5px rgb(153, 153, 153);
+        border: 1px solid rgb(182, 174, 174);   
+        background-color: white;
+        padding: 5px 10px;
+        border-radius: 10px;
+    }
+    .check{
+        display: flex;
+        gap: 10px;
+    }
 }
