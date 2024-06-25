@@ -31,7 +31,7 @@ function Card({posts}){
 
               <div className="tags margin">
                 {
-                  post.tags.map(tag => <span key={`card_tag${tag.id}`}>#{tag.name}</span>)
+                  post.tags.map((tag, index) => <span key={`card_tag_${index}`}>#{tag.name}</span>)
                 }
               </div>
 

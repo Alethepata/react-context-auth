@@ -40,6 +40,8 @@ function App() {
               <Route path="posts">
 
                 <Route path="create" element={<FormCreate />} />
+
+                <Route path="edit/:slug" element={<FormCreate />} />
                 
               </Route>
               

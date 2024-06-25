@@ -1,35 +1,84 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import axios from "axios";
 
 import {usePosts} from "../contexts/PostsContext"
+import { useParams } from 'react-router-dom';
+
 
 const apiBaseUrl = import.meta.env.VITE_BASE_API_URL;
 
 function Form() {
+
+    const [isPostExists, setIsPostExists] = useState(false);
+
+    const {slug} = useParams();
+
+    const [post, setPost] = useState({});
+
+
+  
+    const getPost =  async (url) => {
+      const data = await axios.get(url);
+        setPost(data.data)
+        if (post) {
+            setIsPostExists(true)
+        }
+      
+    }
+    
+    useEffect(() => {
+      getPost(`${apiBaseUrl}/posts/${slug}`)
+    }, [slug])
+
+
     const { categories, tags } = usePosts();
+
+    // const { title, image, content, categoryId, published} = post;
+    
+    // const dataDefault = {
+    //     title,
+    //     image,
+    //     content,
+    //     categoryId,
+    //     published,
+    //     tags:[]
+    // } 
+    // console.log(dataDefault);
     
     const dataDefault = {
         title: '',
         image:'',
         description: '',
-        category: '',
+        categoryId: '',
         publish: false,
         tags:[],
     } 
+
 
     const [postData, setPostData] = useState(dataDefault);
 
     const addPost = async (url, data) => {
         await axios.post(url, data);
     }
+    // const editPost = async (url, data) => {
+    //     await axios.put(url, data);
+    // }
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
+        // if (isPostExists) {
+        //     editPost(`${apiBaseUrl}/posts`, postData)
+        // }
+
         addPost(`${apiBaseUrl}/posts`, postData);
 
         setPostData(dataDefault);
+
+        
+
+        
     }
 
     const addData = (key, newData) => {
@@ -43,7 +92,8 @@ function Form() {
     }
     return (
         <div className="container">
-            <h1>Nuovo Post</h1>
+
+            <h1>{isPostExists ? 'Modifica post':'Nuovo Post'}</h1>
             <form onSubmit={handleSubmit}>
 
                 <div>
@@ -67,11 +117,11 @@ function Form() {
                 </div>
 
                 <div>
-                    <label htmlFor="description">Descrizione</label>
+                    <label htmlFor="content">Descrizione</label>
                     <textarea
-                        id="description"
-                        value={postData.description}
-                        onChange={event => addData('description', event.target.value)}
+                        id="content"
+                        value={postData.content}
+                        onChange={event => addData('content', event.target.value)}
                     ></textarea>
                 </div>
 
@@ -79,15 +129,15 @@ function Form() {
                 <label htmlFor="category">Scegli la categoria</label>
                     <select
                         id="category"
-                        value={postData.category}
-                        onChange={event => addData('category', event.target.value)}
+                        value={postData.categoryId}
+                        onChange={event => addData('categoryId', Number(event.target.value))}
                     >
                         <option selected>Categoria</option>
                         {
                             categories.map((category, index) => (
                                 <option
                                     key={`category_${index}`}
-                                    value={category.name}
+                                    value={category.id}
                                 >
                                     {category.name}
                                 </option>
@@ -103,8 +153,8 @@ function Form() {
                                 <input
                                     id="tags"
                                     type="checkbox"
-                                    checked={postData.tags.includes(tag)}
-                                    onChange={() => addTags(tag)}
+                                    checked={postData.tags.includes(tag.id)}
+                                    onChange={() => addTags(tag.id)}
                                 />
                                 <label htmlFor="tags">
                                   {tag.name}
@@ -118,8 +168,8 @@ function Form() {
                     <input
                         id="publish"
                         type="checkbox"
-                        checked={postData.publish}
-                        onChange={(event) => addData('publish', Boolean(event.target.checked))}
+                        checked={postData.published}
+                        onChange={(event) => addData('published', event.target.checked)}
                     />
                     <label htmlFor="publish">
                       Pubblica
